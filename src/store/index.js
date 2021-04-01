@@ -8,6 +8,7 @@ import mutations from './mutations';
 import getters from './getters';
 import persistState from './plugins/persistState';
 import modals from './plugins/modals';
+import errorHandler from './plugins/errorHandler';
 import backend from './modules/backend';
 import aeternity from './modules/aeternity';
 import Backend from '../utils/backend';
@@ -145,5 +146,6 @@ export default new Vuex.Store({
       }),
     ),
     modals,
+    errorHandler,
   ],
 });
