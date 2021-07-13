@@ -41,6 +41,21 @@
       </div>
     </div>
 
+    <div>
+      <button @click="unhandledRejection">
+        Unhandled rejection
+      </button>
+      <button @click="error">
+        Error
+      </button>
+      <button @click="errorSetTimeout">
+        Error in setTimeout
+      </button>
+      <button @click="errorEval">
+        Error in eval
+      </button>
+    </div>
+
     <FeedPagination
       :tip-sort-by="$route.query.sortBy || 'latest'"
       :search="$route.query.search"
@@ -86,7 +101,26 @@ export default {
       return this.$route.query.feed || 'main';
     },
   },
-  methods: mapMutations(['setIsHiddenContent']),
+  methods: {
+    ...mapMutations(['setIsHiddenContent']),
+    /* eslint-disable */
+    unhandledRejection() {
+      new Promise((resolve, reject) => reject(new Error('UNHANDLED REJECTION')))
+        .then(console.log);
+    },
+    error() {
+      throw new Error('ERROR');
+    },
+    errorSetTimeout() {
+      setTimeout(() => {
+        throw new Error('ERROR SET TIMEOUT');
+      });
+    },
+    errorEval() {
+      eval(`1 / !`);
+    },
+    /* eslint-enable */
+  },
   metaInfo: {
     title: 'Tips',
   },
