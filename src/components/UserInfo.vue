@@ -170,7 +170,7 @@
             :key="scope"
             class="cookies-button"
             :class="{ active: cookiesConsent[scope] }"
-            @click="setCookies({ scope, status: !cookiesConsent[scope] })"
+            @click="toggleCookiesConsent(scope)"
           >
             {{ scope }}
           </ButtonPlain>
@@ -381,6 +381,16 @@ export default {
           this.$store.commit('setUserProfile', profile);
         })
         .catch(console.error);
+    },
+    async toggleCookiesConsent(scope) {
+      try {
+        await this.$store.dispatch(
+          'backend/setCookies',
+          { scope, status: !this.cookiesConsent[scope] },
+        );
+      } catch (error) {
+        if (error.message !== 'Operation rejected by user') throw error;
+      }
     },
   },
 };
